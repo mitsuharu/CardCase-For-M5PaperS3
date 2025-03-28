@@ -2,12 +2,15 @@
 #include <epdiy.h>
 #include <M5Unified.h>
 
+// フォントサイズの定義
 #define FONT_SIZE_SPACER 2
 #define FONT_SIZE_REGULAR 4
 #define FONT_SIZE_FILE 10
 
-#define MAX_IMAGES 10 // 画像ファイルの最大数
+// 対応する画像ファイル数（ファイル名の表示エリアと描画に時間がかかるので、大きな値は設定しない）
+#define MAX_IMAGES 10
 
+// タッチしたエリアを判定するための構造体
 struct TouchArea
 {
   int x, y, w, h;
@@ -20,6 +23,7 @@ struct TouchArea
   }
 };
 
+// TouchAreaの作成と表示を同時にする（TouchAreaのクラス関数的に書くと良いが、C++分からん）
 TouchArea drawTouchArea(String text, String path, int x, int y, int textSize = 6, uint16_t fgColor = TFT_BLACK, uint16_t bgColor = TFT_WHITE)
 {
   M5.Lcd.setTextSize(textSize);
@@ -37,13 +41,14 @@ TouchArea drawTouchArea(String text, String path, int x, int y, int textSize = 6
   return area;
 }
 
+// 引数の座標が、同じく引数で与えたTouchAreaのどれにあたるか調べる
 int findTouchedAreaIndex(int tx, int ty, TouchArea *list, int count)
 {
   for (int i = 0; i < count; i++)
   {
     if (list[i].contains(tx, ty))
     {
-      return i; // 一致したインデックスを返す
+      return i;
     }
   }
   return -1; // 該当なし
@@ -51,7 +56,7 @@ int findTouchedAreaIndex(int tx, int ty, TouchArea *list, int count)
 
 TouchArea touchAreaList[MAX_IMAGES];
 int touchAreaCount = 0; // 見つかった画像の数
-int yTouchArea = 0;     // TODO: 計算する
+int yTouchArea = 0;     // TouchArea を描画するために、高さを記録する
 
 // SDカード内の画像ファイルを描画する関数
 void displayImage(String filename)
@@ -68,20 +73,19 @@ void displayImage(String filename)
     M5.Lcd.drawPngFile(SD, filename, 0, 0);
   }
 
-  // // Enter into deep sleep
-  // M5.Log(esp_log_level_t::ESP_LOG_INFO, "Deep sleep start\n");
-  // M5.Power.deepSleep();
+  // 電池のためスリープに入る。再び画像選択したい場合は電源ボタンを押す。
+  M5.Log(esp_log_level_t::ESP_LOG_INFO, "Deep sleep start\n");
+  M5.Power.deepSleep();
 }
 
 void setup()
 {
-  // Serial.begin(115200);
   auto cfg = M5.config();
   M5.begin(cfg);
 
-  // // Get wakeup reason
-  // esp_sleep_wakeup_cause_t wakeup_reason = esp_sleep_get_wakeup_cause();
-  // M5.Log(esp_log_level_t::ESP_LOG_INFO, "Wakeup reason: %d\n", wakeup_reason);
+  // スリープから起きる。実機の電源ボタンを押してください。
+  esp_sleep_wakeup_cause_t wakeup_reason = esp_sleep_get_wakeup_cause();
+  M5.Log(esp_log_level_t::ESP_LOG_INFO, "Wakeup reason: %d\n", wakeup_reason);
 
   yTouchArea += drawTouchArea("CardCase For M5PaperS3", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
 
@@ -93,7 +97,6 @@ void setup()
 
   // SD の初期化
   SPI.begin(sclk, miso, mosi);
-  M5.Lcd.setTextSize(FONT_SIZE_REGULAR);
   if (!SD.begin(cs, SPI, 4000000))
   {
     yTouchArea += drawTouchArea("SD card init .. NG", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
@@ -105,7 +108,7 @@ void setup()
     yTouchArea += drawTouchArea("SD card init .. OK", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
   }
 
-  // SD のルートディレクトリを走査して画像ファイルをリストアップ
+  // SD のルートディレクトリを開く
   File root = SD.open("/");
   if (!root)
   {
@@ -118,6 +121,7 @@ void setup()
     yTouchArea += drawTouchArea("", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
   }
 
+  // SD を走査して画像ファイルをリストアップ
   File file = root.openNextFile();
   while (file && touchAreaCount < MAX_IMAGES)
   {
@@ -143,6 +147,7 @@ void setup()
   }
   root.close();
 
+  // 読込み完了
   yTouchArea += drawTouchArea("", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
   if (touchAreaCount > 0)
   {

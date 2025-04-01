@@ -30,8 +30,9 @@ TouchArea drawTouchArea(String text, String path, int x, int y, int textSize = 6
   M5.Lcd.setTextColor(fgColor, bgColor);
   M5.Lcd.setCursor(x, y);
   M5.Lcd.setTextWrap(false);
+  M5.Lcd.setEpdMode(epd_mode_t::epd_fastest);
   M5.Lcd.println(text);
-  Serial.println(text);
+  // Serial.println(text);
   M5.Lcd.setTextWrap(true);
 
   int w = M5.Lcd.width();
@@ -64,6 +65,7 @@ void displayImage(String filename)
   M5.Lcd.fillScreen(0xFFFFFF);
   M5.Lcd.setRotation(2);
 
+  M5.Lcd.setEpdMode(epd_mode_t::epd_quality);
   if (filename.endsWith(".jpg") || filename.endsWith(".jpeg"))
   {
     M5.Lcd.drawJpgFile(SD, filename, 0, 0);
@@ -99,13 +101,13 @@ void setup()
   SPI.begin(sclk, miso, mosi);
   if (!SD.begin(cs, SPI, 4000000))
   {
-    yTouchArea += drawTouchArea("SD card init .. NG", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
+    yTouchArea += drawTouchArea("mount SD card .. NG", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
     while (1)
       ;
   }
   else
   {
-    yTouchArea += drawTouchArea("SD card init .. OK", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
+    yTouchArea += drawTouchArea("mount SD card .. OK", "", 0, yTouchArea, FONT_SIZE_REGULAR).h;
   }
 
   // SD のルートディレクトリを開く

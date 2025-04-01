@@ -42,3 +42,6 @@ Temporary Items
 .pio
 
 # End of https://www.toptal.com/developers/gitignore/api/macos,platformio
+
+# VS Code
+.vscode/c_cpp_properties.json

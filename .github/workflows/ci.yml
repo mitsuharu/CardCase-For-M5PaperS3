@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +32,7 @@ jobs:
     - name: Upload bin-file as artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: firmware
+        name: firmware-bin
         path: .pio/build/**/firmware.bin
         if-no-files-found: error
 
@@ -39,5 +43,5 @@ jobs:
         repository: ${{ github.repository }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          :gift: PDF が作成されました
+          :gift: bin が作成されました
           [こちらからダウンロードできます](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }})

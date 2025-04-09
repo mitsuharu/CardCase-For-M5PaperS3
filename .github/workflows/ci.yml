@@ -31,6 +31,7 @@ jobs:
 
     - name: Upload bin-file as artifacts
       uses: actions/upload-artifact@v4
+      id: artifact-upload-step
       with:
         name: firmware-bin
         path: .pio/build/**/*.bin
@@ -43,5 +44,5 @@ jobs:
         repository: ${{ github.repository }}
         issue-number: ${{ github.event.pull_request.number }}
         body: |
-          :gift: bin が作成されました
+          :rocket: ビルドが成功しました
           [こちらからダウンロードできます](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ steps.artifact-upload-step.outputs.artifact-id }})

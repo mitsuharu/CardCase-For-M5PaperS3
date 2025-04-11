@@ -25,6 +25,10 @@ jobs:
       run: |
         pip install platformio
 
+    - name: Run PlatformIO test
+      run: |
+        pio test
+
     - name: Run PlatformIO build
       run: |
         pio run

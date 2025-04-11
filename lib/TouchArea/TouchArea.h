@@ -1,6 +1,11 @@
 #pragma once
 
+#ifdef ARDUINO
 #include <Arduino.h>
+#else
+#include <string>
+using String = std::string;
+#endif
 
 /**
  * タッチしたエリアを判定するための構造体
@@ -22,12 +27,15 @@ struct TouchArea
     bool contains(int tx, int ty);
 
     /**
-     * TouchArea を生成して、テキストを表示する
-     */
-    static TouchArea draw(String text, String path, int x, int y, int textSize);
-
-    /**
      * 引数で指定する TouchArea 配列から一致する座標を持つ配列番号を取得する
      */
     static int findIndex(int tx, int ty, TouchArea *list, int count);
+
+    // native テストを行うため、#ifdef ARDUINO で定義を分ける
+#ifdef ARDUINO
+    /**
+     * TouchArea を生成して、テキストを表示する
+     */
+    static TouchArea draw(String text, String path, int x, int y, int textSize);
+#endif
 };

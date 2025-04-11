@@ -2,8 +2,8 @@
 #include <epdiy.h>
 #include <M5Unified.h>
 
-#include "./MyHelper.h"
-#include "./TouchArea.h"
+#include <M5Helper.h>
+#include <TouchArea.h>
 
 // フォントサイズの定義
 #define FONT_SIZE_SPACER 2
@@ -112,7 +112,7 @@ void loop()
     if (0 <= index && index < touchAreaCount)
     {
       TouchArea area = touchAreaList[index];
-      MyHelper::drawImageFromSD(area.path, MyHelper::Rotation::Down, true);
+      M5Helper::drawImageFromSD(area.path, M5Helper::Rotation::Down, true);
     }
   }
 }

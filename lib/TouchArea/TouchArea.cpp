@@ -1,5 +1,4 @@
 #include "./TouchArea.h"
-#include "./MyHelper.h"
 
 // タッチしたエリアを判定するための構造体
 bool TouchArea::contains(int tx, int ty)
@@ -20,10 +19,15 @@ int TouchArea::findIndex(int tx, int ty, TouchArea *list, int count)
     return -1; // 該当なし
 };
 
+#ifdef ARDUINO
+// native テストに影響しないようにマクロで分ける
+#include <M5Helper.h>
+
 // TouchAreaの作成と表示を同時にする
-TouchArea TouchArea::TouchArea::draw(String text, String path, int x, int y, int textSize)
+TouchArea TouchArea::draw(String text, String path, int x, int y, int textSize)
 {
-    MyHelper::Size size = MyHelper::drawText(text, x, y, textSize);
+    M5Helper::Size size = M5Helper::drawText(text, x, y, textSize);
     TouchArea area = {x, y, size.width, size.height, text, path};
     return area;
 }
+#endif

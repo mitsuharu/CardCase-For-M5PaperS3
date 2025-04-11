@@ -1,11 +1,14 @@
-#include "./MyHelper.h"
+#include "./M5Helper.h"
+
+#ifdef ARDUINO
+
 #include <SD.h>
 #include <epdiy.h>
 #include <M5Unified.h>
 
-uint16_t convertColor(MyHelper::Color color)
+uint16_t convertColor(M5Helper::Color color)
 {
-  if (color == MyHelper::Color::black)
+  if (color == M5Helper::Color::black)
   {
     return TFT_BLACK;
   }
@@ -16,7 +19,7 @@ uint16_t convertColor(MyHelper::Color color)
 }
 
 // SDカード内の画像ファイルを描画する関数
-void MyHelper::drawImageFromSD(String path, Rotation rotation, bool shouldSleepAfterDraw)
+void M5Helper::drawImageFromSD(String path, Rotation rotation, bool shouldSleepAfterDraw)
 {
   M5.Lcd.fillScreen(0xFFFFFF);
   M5.Lcd.setRotation(static_cast<uint_fast8_t>(rotation));
@@ -40,7 +43,7 @@ void MyHelper::drawImageFromSD(String path, Rotation rotation, bool shouldSleepA
   }
 }
 
-MyHelper::Size MyHelper::drawText(String text, int x, int y, int textSize, Color fontColor, Color bgColor)
+M5Helper::Size M5Helper::drawText(String text, int x, int y, int textSize, Color fontColor, Color bgColor)
 {
   M5.Lcd.setTextSize(textSize);
   M5.Lcd.setTextColor(convertColor(fontColor), convertColor(bgColor));
@@ -54,6 +57,8 @@ MyHelper::Size MyHelper::drawText(String text, int x, int y, int textSize, Color
   int width = M5.Lcd.width();
   int height = M5.Lcd.fontHeight();
 
-  MyHelper::Size size = {width, height};
+  M5Helper::Size size = {width, height};
   return size;
 }
+
+#endif

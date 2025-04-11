@@ -25,20 +25,20 @@ jobs:
       run: |
         pip install platformio
 
-    - name: Run PlatformIO test
+    - name: Run PlatformIO native test
       run: |
-        pio test
+        pio test -e native
 
     - name: Run PlatformIO build
       run: |
-        pio run
+        pio run -e M5PaperS3
 
     - name: Upload bin-file as artifacts
       uses: actions/upload-artifact@v4
       id: artifact-upload-step
       with:
         name: firmware-bin
-        path: .pio/build/**/*.bin
+        path: .pio/build/M5PaperS3/**/*.bin
         if-no-files-found: error
 
     - name: Create or Update PR Comment

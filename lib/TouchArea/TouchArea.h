@@ -31,11 +31,8 @@ struct TouchArea
      */
     static int findIndex(int tx, int ty, TouchArea *list, int count);
 
-    // native テストを行うため、#ifdef ARDUINO で定義を分ける
-#ifdef ARDUINO
     /**
      * TouchArea を生成して、テキストを表示する
      */
     static TouchArea draw(String text, String path, int x, int y, int textSize);
-#endif
 };

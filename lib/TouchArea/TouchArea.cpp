@@ -30,4 +30,11 @@ TouchArea TouchArea::draw(String text, String path, int x, int y, int textSize)
     TouchArea area = {x, y, size.width, size.height, text, path};
     return area;
 }
+#else
+// テスト向けのダミー実装
+TouchArea TouchArea::draw(String text, String path, int x, int y, int textSize)
+{
+    TouchArea area = {x, y, 100, 40, text, path};
+    return area;
+}
 #endif

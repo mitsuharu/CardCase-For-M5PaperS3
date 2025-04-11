@@ -25,6 +25,8 @@ jobs:
       run: |
         pip install platformio
 
+    # CI では native (PC) を対象としたテストを行う。
+    # Arduino.h や M5Unified.h などが必要なテストは実機環境が必要なので、CI ではテストしない（できない）。
     - name: Run PlatformIO native test
       run: |
         pio test -e native

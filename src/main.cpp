@@ -1,5 +1,4 @@
 #include <SD.h>
-#include <epdiy.h>
 #include <M5Unified.h>
 
 #include <M5Helper.h>
@@ -8,7 +7,7 @@
 // フォントサイズの定義
 #define FONT_SIZE_SPACER 2
 #define FONT_SIZE_REGULAR 4
-#define FONT_SIZE_FILE 10
+#define FONT_SIZE_FILE 8
 
 // 対応する画像ファイル数（ファイル名の表示エリアと描画に時間がかかるので、大きな値は設定しない）
 #define MAX_IMAGES 10

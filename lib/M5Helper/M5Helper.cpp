@@ -3,7 +3,6 @@
 #ifdef ARDUINO
 
 #include <SD.h>
-#include <epdiy.h>
 #include <M5Unified.h>
 
 uint16_t convertColor(M5Helper::Color color)

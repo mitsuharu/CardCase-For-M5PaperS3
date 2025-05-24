@@ -4,7 +4,7 @@
 
 struct Option
 {
-    int textSize = 4;
+    int textSize = 6;
     Color fontColor = Color(ColorValue::black);
     Color backgroundColor = Color(ColorValue::white);
 };

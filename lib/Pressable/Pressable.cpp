@@ -23,9 +23,6 @@ void Pressable::loop()
     auto t = M5.Touch.getDetail();
     if (t.wasPressed() && rect.contains(t.x, t.y))
     {
-        M5.Display.setTextSize(8);
-        M5.Display.printf("onPress !");
-
         if (onPress != NULL)
         {
             onPress(*this);
@@ -35,5 +32,7 @@ void Pressable::loop()
 
 void Pressable::release()
 {
+    tag = 0;
+    userInfo = "";
     onPress = NULL;
 }

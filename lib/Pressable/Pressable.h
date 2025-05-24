@@ -15,6 +15,9 @@ class Pressable
     typedef std::function<void(Pressable &pressable)> CallbackFunction;
 
 public:
+    int tag = 0;
+    String userInfo = "";
+
     void show(String text, CallbackFunction onPress = NULL, Option option = Option());
     void loop();
     void release();

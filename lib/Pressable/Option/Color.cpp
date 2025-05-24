@@ -1,4 +1,7 @@
 #include "Color.h"
+
+#ifdef ARDUINO
+
 #include <M5Unified.h>
 
 uint16_t Color::m5Color()
@@ -13,3 +16,5 @@ uint16_t Color::m5Color()
         return TFT_WHITE;
     }
 }
+
+#endif

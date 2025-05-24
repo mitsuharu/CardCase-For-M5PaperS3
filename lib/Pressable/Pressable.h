@@ -4,6 +4,7 @@
 #include <Arduino.h>
 #else
 #include <string>
+#include <functional>
 using String = std::string;
 #endif
 

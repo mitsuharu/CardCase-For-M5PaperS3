@@ -1,4 +1,7 @@
 #include "Pressable.h"
+
+#ifdef ARDUINO
+
 #include <M5Unified.h>
 
 void Pressable::show(String text, CallbackFunction onPress, Option option)
@@ -36,3 +39,5 @@ void Pressable::release()
     userInfo = "";
     onPress = NULL;
 }
+
+#endif
